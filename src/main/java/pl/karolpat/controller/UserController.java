@@ -19,7 +19,7 @@ public class UserController {
 
 	public UserController(UserService userService, ParkingMeterService parkingMeterService) {
 		this.userService = userService;
-		this.parkingMeterService=parkingMeterService;
+		this.parkingMeterService = parkingMeterService;
 	}
 
 	@PostMapping("users/startParking/{id}")
@@ -44,5 +44,16 @@ public class UserController {
 		}
 
 	}
-	
+
+	@GetMapping("users/checkCost/{id}")
+	ResponseEntity<?> checkCost(@PathVariable("id") long id) {
+		User user = userService.getOneById(id);
+		if (user.isStarted() == false) {
+			return ResponseEntity.ok("Nothing to show. There is no current parking");
+		} else {
+			
+			return ResponseEntity.ok(parkingMeterService.checkCost(user, id));
+		}
+	}
+
 }
