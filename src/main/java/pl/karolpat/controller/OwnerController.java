@@ -14,30 +14,30 @@ import pl.karolpat.service.UserService;
 @RestController
 public class OwnerController {
 
-	
 	private UserService userService;
-	
+
 	public OwnerController(UserService userService) {
-		this.userService=userService;
+		this.userService = userService;
 	}
-	
+
 	@RequestMapping("/")
-	ResponseEntity getUsers(){
+	ResponseEntity getUsers() {
 		return ResponseEntity.ok(userService.getAllUsers());
 	}
-	
+
 	@RequestMapping("users/{id}")
 	ResponseEntity getUserById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(userService.getOneById(id));
 	}
-	
+
 	@PutMapping("users/{id}/vip")
 	ResponseEntity setUserAsVip(@RequestBody User tmp, @PathVariable("id") long id) {
 		return ResponseEntity.ok(userService.setUserAsVip(tmp, id));
 	}
-	
+
 	@GetMapping("users/vip")
 	ResponseEntity showAllVips() {
 		return ResponseEntity.ok(userService.findAllWhereVip(true));
 	}
+
 }
