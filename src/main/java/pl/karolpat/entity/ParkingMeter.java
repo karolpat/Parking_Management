@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class ParkingMeter {
@@ -22,11 +23,15 @@ public class ParkingMeter {
 	private Timestamp end;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="parking_id")
+	@JoinColumn(name="user_id")
 	private User user;
+	
+	@OneToOne
+	private Vehicle vehicle;
 	
 	
 	//GETTERS AND SETTERS
+	
 
 	public long getId() {
 		return id;
