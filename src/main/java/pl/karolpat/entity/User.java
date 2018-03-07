@@ -47,6 +47,7 @@ public class User {
 	private Roles role;
 
 	@OneToMany(mappedBy = "user")
+	@JsonManagedReference
 	private Set<ParkingMeter> parking;
 
 	// GETERS AND SETTERS

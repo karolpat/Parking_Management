@@ -14,17 +14,24 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 public class Vehicle {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private String number;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="owner_id")
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "owner_id")
 	@JsonBackReference
 	private User owner;
-	
-	//GETTERS AND SETTERS
+
+	public Vehicle(String number, User owner) {
+		this.number = number;
+		this.owner = owner;
+	}
+
+	public Vehicle() {}
+
+	// GETTERS AND SETTERS
 
 	public long getId() {
 		return id;
@@ -55,5 +62,4 @@ public class Vehicle {
 		return "Vehicle [id=" + id + ", number=" + number + ", owner=" + owner + "]";
 	}
 
-	
 }

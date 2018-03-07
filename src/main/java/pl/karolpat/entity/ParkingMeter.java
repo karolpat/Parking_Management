@@ -11,27 +11,37 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class ParkingMeter {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	private Timestamp start;
-	
+
 	private Timestamp end;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="user_id")
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	@JsonBackReference
 	private User user;
-	
+
 	@OneToOne
 	private Vehicle vehicle;
+
 	
-	
-	//GETTERS AND SETTERS
-	
+	public ParkingMeter() {}
+
+	public ParkingMeter(Timestamp start, User user, Vehicle vehicle) {
+		this.start = start;
+		this.user = user;
+		this.vehicle = vehicle;
+	}
+
+	// GETTERS AND SETTERS
 
 	public long getId() {
 		return id;
@@ -69,6 +79,5 @@ public class ParkingMeter {
 	public String toString() {
 		return "ParkingMeter [id=" + id + ", start=" + start + ", end=" + end + ", user=" + user + "]";
 	}
-	
-	
+
 }
