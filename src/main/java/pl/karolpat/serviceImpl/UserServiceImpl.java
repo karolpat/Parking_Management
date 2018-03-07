@@ -67,4 +67,11 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public User checkParking(User user) {
+		
+		
+		return null;
+	}
+
 }

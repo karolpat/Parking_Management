@@ -17,5 +17,7 @@ public interface UserService {
 	List<User> findAllWhereVip(boolean vip);
 
 	User startParking(String vehicle, User user);
+	
+	User checkParking(User user);
 
 }

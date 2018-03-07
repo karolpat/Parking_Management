@@ -1,5 +1,7 @@
 package pl.karolpat.serviceImpl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import pl.karolpat.entity.ParkingMeter;
@@ -20,6 +22,16 @@ public class ParkingMeterServiceImpl implements ParkingMeterService{
 		parkingMeterRepo.save(PM);
 		return PM;
 	}
-	
+
+	@Override
+	public ParkingMeter findUserParkingMeter(long id) {
+		return parkingMeterRepo.getFirstByUserIdOrderByStart(id) ;
+	}
+
+	@Override
+	public List<ParkingMeter> findAll() {
+		return parkingMeterRepo.findAll();
+	}
+
 	
 }
