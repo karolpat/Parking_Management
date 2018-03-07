@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Vehicle {
 
@@ -19,6 +21,7 @@ public class Vehicle {
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="owner_id")
+	@JsonBackReference
 	private User owner;
 	
 	//GETTERS AND SETTERS

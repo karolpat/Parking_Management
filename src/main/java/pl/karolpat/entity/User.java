@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class User {
 
@@ -31,10 +33,14 @@ public class User {
 	@Email
 	private String email;
 
+	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean vip = false;
+	
+	@Column(columnDefinition="tinyint(1) default 0")
 	private boolean started = false;
 
 	@OneToMany(mappedBy = "owner")
+	@JsonManagedReference
 	private Set<Vehicle> vehicle;
 
 	@OneToOne
