@@ -48,7 +48,6 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public int getCurrentHours(long id) {
 
