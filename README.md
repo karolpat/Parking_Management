@@ -4,7 +4,7 @@
 
 ### REST API for car parking management. 
 
-Implements short user stories as follow:
+Implements short user stories as follows:
 
 * As a driver, I want to start the parking meter, so I don’t have to pay the fine for the invalid parking.
 * As a parking operator, I want to check if the vehicle has started the parking meter.
