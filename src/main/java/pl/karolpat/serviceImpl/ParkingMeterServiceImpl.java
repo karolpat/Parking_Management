@@ -74,8 +74,8 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		double perHour = 2;
 		double price = 0;
 
-		if (hours > 1) {
-			for (int i = 1; i < hours; i++) {
+		if (hours > 0) {
+			for (int i = 0; i < hours; i++) {
 				price += perHour;
 				perHour *= 1.5;
 			}
@@ -90,8 +90,9 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		double perHour = 2;
 		double price = 1;
 
-		if (hours > 1) {
-			for (int i = 1; i < hours; i++) {
+		if (hours > 0) {
+			for (int i = 0; i < hours; i++) {
+				
 				price += perHour;
 				perHour *= 2;
 			}
