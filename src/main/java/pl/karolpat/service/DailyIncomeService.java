@@ -1,6 +1,7 @@
 package pl.karolpat.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.LocalDate;
 
@@ -10,8 +11,8 @@ public interface DailyIncomeService {
 	
 	List<DailyIncome> getAllDailyIncome();
 	DailyIncome save(DailyIncome dailyInc);
-	DailyIncome getOneById(long id);
-	DailyIncome getOneByDate(LocalDate localDate);
-	DailyIncome save(DailyIncome dailyInc, long id);
+	DailyIncome getOneByDate(LocalDate date);
+	DailyIncome save(DailyIncome dailyInc, LocalDate date);
+	DailyIncome addIncome(Map<String, Double> map);
 	
 }
