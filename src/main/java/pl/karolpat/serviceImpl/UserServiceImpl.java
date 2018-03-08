@@ -2,6 +2,7 @@ package pl.karolpat.serviceImpl;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import pl.karolpat.entity.ParkingMeter;
 import pl.karolpat.entity.User;
 import pl.karolpat.entity.Vehicle;
 import pl.karolpat.repository.UserRepo;
+import pl.karolpat.service.DailyIncomeService;
 import pl.karolpat.service.ParkingMeterService;
 import pl.karolpat.service.UserService;
 import pl.karolpat.service.VehicleService;
@@ -19,11 +21,14 @@ public class UserServiceImpl implements UserService {
 	private UserRepo userRepo;
 	private VehicleService vehicleService;
 	private ParkingMeterService parkingMeterService;
+	private DailyIncomeService dailyIncomeService;
 
-	public UserServiceImpl(UserRepo userRepo, VehicleService vehicleService, ParkingMeterService parkingMeterService) {
+	public UserServiceImpl(UserRepo userRepo, VehicleService vehicleService, ParkingMeterService parkingMeterService,
+			DailyIncomeService dailyIncomeService) {
 		this.userRepo = userRepo;
 		this.vehicleService = vehicleService;
-		this.parkingMeterService=parkingMeterService;
+		this.parkingMeterService = parkingMeterService;
+		this.dailyIncomeService = dailyIncomeService;
 	}
 
 	@Override
@@ -56,22 +61,34 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User startParking(String vehicleNumber, User user) {
-		
+
 		user.setStarted(true);
 		Vehicle vehicle = new Vehicle(vehicleNumber, user);
 		vehicleService.save(vehicle);
 		userRepo.save(user);
-		
-		ParkingMeter parkingMeter = new ParkingMeter(new Timestamp(System.currentTimeMillis()),user, vehicle);
+
+		ParkingMeter parkingMeter = new ParkingMeter(new Timestamp(System.currentTimeMillis()), user, vehicle);
 		parkingMeterService.save(parkingMeter);
 		return user;
 	}
 
 	@Override
 	public User checkParking(User user) {
-		
-		
+
 		return null;
+	}
+
+	@Override
+	public Map<String, Double> finishParking(User user) {
+
+		parkingMeterService.saveSetEnd(user);
+		user.setStarted(false);
+		userRepo.save(user);
+
+		Map<String, Double> map = parkingMeterService.checkCost(user);
+		dailyIncomeService.addIncome(map);
+		
+		return map;
 	}
 
 }

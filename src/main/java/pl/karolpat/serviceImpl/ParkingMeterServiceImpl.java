@@ -1,7 +1,9 @@
 package pl.karolpat.serviceImpl;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
@@ -37,13 +39,19 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 	}
 
 	@Override
-	public double checkCost(User user, long id) {
+	public Map<String, Double> checkCost(User user) {
 
-		int hours = getCurrentHours(id);
+		int hours = getCurrentHours(user.getId());
+
+		Map<String, Double> map = new HashMap<>();
+		map.put("Hours spent", (double) hours);
+		
 		if (user.isVip() == true) {
-			return getCostIfVip(hours);
+			map.put("PLN", round(getCostIfVip(hours),2));
+			return map;
 		} else {
-			return getCostUnlessVip(hours);
+			map.put("PLN", round(getCostUnlessVip(hours),2));
+			return map;
 		}
 
 	}
@@ -90,6 +98,23 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		}
 
 		return price;
+	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    long factor = (long) Math.pow(10, places);
+	    value = value * factor;
+	    long tmp = Math.round(value);
+	    return (double) tmp / factor;
+	}
+
+
+	@Override
+	public ParkingMeter saveSetEnd(User user) {
+		ParkingMeter parkingMeter = parkingMeterRepo.getFirstByUserIdOrderByStart(user.getId());
+		parkingMeter.setEnd(new Timestamp(System.currentTimeMillis()));
+		return parkingMeter;
 	}
 
 }
