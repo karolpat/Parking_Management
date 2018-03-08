@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import pl.karolpat.entity.User;
+import pl.karolpat.entity.Vehicle;
 
 public interface UserService {
 
@@ -17,11 +18,10 @@ public interface UserService {
 
 	List<User> findAllWhereVip(boolean vip);
 
-	User startParking(String vehicle, User user);
+	User startParking(String number, User user);
 	
 	User checkParking(User user);
 	
 	Map<String, Double> finishParking(User user);
 	
-
 }

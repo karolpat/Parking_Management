@@ -60,11 +60,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User startParking(String vehicleNumber, User user) {
+	public User startParking(String number, User user) {
 
 		user.setStarted(true);
-		Vehicle vehicle = new Vehicle(vehicleNumber, user);
-		vehicleService.save(vehicle);
+		Vehicle vehicle = vehicleService.createVehicle(number, user);
 		userRepo.save(user);
 
 		ParkingMeter parkingMeter = new ParkingMeter(new Timestamp(System.currentTimeMillis()), user, vehicle);

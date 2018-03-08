@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.karolpat.entity.User;
+import pl.karolpat.entity.Vehicle;
 import pl.karolpat.service.ParkingMeterService;
 import pl.karolpat.service.UserService;
+import pl.karolpat.service.VehicleService;
 
 @RestController
 @RequestMapping("users/")
@@ -18,10 +20,12 @@ public class UserController {
 
 	private UserService userService;
 	private ParkingMeterService parkingMeterService;
+	private VehicleService vehicleService;
 
-	public UserController(UserService userService, ParkingMeterService parkingMeterService) {
+	public UserController(UserService userService, ParkingMeterService parkingMeterService, VehicleService vehicleService) {
 		this.userService = userService;
 		this.parkingMeterService = parkingMeterService;
+		this.vehicleService=vehicleService;
 	}
 	
 	public User getUserById(long id) {
@@ -29,7 +33,7 @@ public class UserController {
 	}
 
 	@PostMapping("startParking/{id}")
-	ResponseEntity startParking(@RequestBody String vehicleNumber, @PathVariable("id") long id) {
+	ResponseEntity<?> startParking(@RequestBody String vehicleNumber, @PathVariable("id") long id) {
 
 		User user = getUserById(id);
 		
@@ -42,7 +46,7 @@ public class UserController {
 	}
 
 	@GetMapping("checkParking/{id}")
-	ResponseEntity checkParking(@PathVariable("id") long id) {
+	ResponseEntity<?> checkParking(@PathVariable("id") long id) {
 		
 		User user = getUserById(id);
 		
