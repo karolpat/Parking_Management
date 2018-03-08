@@ -14,9 +14,9 @@ import org.joda.time.LocalDate;
 public class DailyIncome {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private LocalDate date;
 	
 	@Column(precision=10, scale=2)
