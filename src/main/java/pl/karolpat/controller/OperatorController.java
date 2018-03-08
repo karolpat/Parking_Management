@@ -1,5 +1,7 @@
 package pl.karolpat.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,32 +14,39 @@ import pl.karolpat.entity.User;
 import pl.karolpat.service.UserService;
 
 @RestController
-public class OwnerController {
+@RequestMapping("users")
+public class OperatorController {
 
 	private UserService userService;
 
-	public OwnerController(UserService userService) {
+	public OperatorController(UserService userService) {
 		this.userService = userService;
 	}
 
-	@RequestMapping("/")
-	ResponseEntity getUsers() {
+	@RequestMapping("")
+	ResponseEntity<List<User>> getUsers() {
 		return ResponseEntity.ok(userService.getAllUsers());
 	}
 
-	@RequestMapping("users/{id}")
-	ResponseEntity getUserById(@PathVariable("id") long id) {
+	@RequestMapping("/{id}")
+	ResponseEntity<User> getUserById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(userService.getOneById(id));
 	}
 
-	@PutMapping("users/{id}/vip")
-	ResponseEntity setUserAsVip(@RequestBody User tmp, @PathVariable("id") long id) {
-		return ResponseEntity.ok(userService.setUserAsVip(tmp, id));
+	@PutMapping("/{id}/vip")
+	ResponseEntity<?> setUserAsVip(@RequestBody User tmp, @PathVariable("id") long id) {
+		if(tmp.isStarted()) {
+			return ResponseEntity.ok("Cannot change vip status on user who uses praking.");
+		}else {
+			return ResponseEntity.ok(userService.setUserAsVip(tmp, id));
+		}
+		
 	}
 
-	@GetMapping("users/vip")
-	ResponseEntity showAllVips() {
+	@GetMapping("/vip")
+	ResponseEntity<List<User>> showAllVips() {
 		return ResponseEntity.ok(userService.findAllWhereVip(true));
 	}
 
+//	@GetMapping("")
 }
