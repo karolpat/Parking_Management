@@ -11,7 +11,7 @@ public interface DailyIncomeService {
 
 	DailyIncome save(DailyIncome dailyInc);
 
-	DailyIncome getOneByDate(String date);
+	Object getOneByDate(String date);
 
 	DailyIncome addIncome(Map<String, Double> map);
 
