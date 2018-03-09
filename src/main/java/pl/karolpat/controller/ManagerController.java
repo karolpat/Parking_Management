@@ -4,11 +4,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.karolpat.service.DailyIncomeService;
 
 @RestController
+@RequestMapping("manager")
 public class ManagerController {
 	
 	private DailyIncomeService dailyIncomeService;
@@ -24,7 +26,7 @@ public class ManagerController {
 		return ResponseEntity.ok(dailyIncomeService.getOneByDate(date));
 	}
 	
-	@GetMapping("/test")
+	@GetMapping("/all/dailyIncome")
 	ResponseEntity test() {
 		return ResponseEntity.ok(dailyIncomeService.getAllDailyIncome());
 	}

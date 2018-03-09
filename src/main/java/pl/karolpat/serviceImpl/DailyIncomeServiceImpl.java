@@ -2,6 +2,7 @@ package pl.karolpat.serviceImpl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -32,16 +33,9 @@ public class DailyIncomeServiceImpl implements DailyIncomeService {
 
 	@Override
 	public DailyIncome getOneByDate(String date) {
-//		org.joda.time.format.DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		return dailyIincomeRepo.findOneByDate(null);
+		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		return dailyIincomeRepo.findOneByDate(LocalDate.parse(date, df));
 	}
-
-//	@Override
-//	public DailyIncome save(DailyIncome dailyInc, LocalDate date) {
-//		DailyIncome tmp = dailyIincomeRepo.findOne(date);
-//		tmp.setIncome(dailyInc.getIncome());
-//		return dailyIincomeRepo.save(tmp);
-//	}
 
 	@Override
 	public DailyIncome addIncome(Map<String, Double> map) {
