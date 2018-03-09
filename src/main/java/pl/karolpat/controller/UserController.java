@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.karolpat.entity.User;
-import pl.karolpat.entity.Vehicle;
 import pl.karolpat.service.ParkingMeterService;
 import pl.karolpat.service.UserService;
-import pl.karolpat.service.VehicleService;
 
 @RestController
 @RequestMapping("users/")
@@ -20,14 +18,12 @@ public class UserController {
 
 	private UserService userService;
 	private ParkingMeterService parkingMeterService;
-	private VehicleService vehicleService;
 
-	public UserController(UserService userService, ParkingMeterService parkingMeterService, VehicleService vehicleService) {
+	public UserController(UserService userService, ParkingMeterService parkingMeterService) {
 		this.userService = userService;
 		this.parkingMeterService = parkingMeterService;
-		this.vehicleService=vehicleService;
 	}
-	
+
 	public User getUserById(long id) {
 		return userService.getOneById(id);
 	}
@@ -36,7 +32,7 @@ public class UserController {
 	ResponseEntity<?> startParking(@RequestBody String vehicleNumber, @PathVariable("id") long id) {
 
 		User user = getUserById(id);
-		
+
 		if (user.isStarted() == true) {
 			return ResponseEntity.ok("Finish your previous parking first");
 		} else {
@@ -47,9 +43,9 @@ public class UserController {
 
 	@GetMapping("checkParking/{id}")
 	ResponseEntity<?> checkParking(@PathVariable("id") long id) {
-		
+
 		User user = getUserById(id);
-		
+
 		if (user.isStarted() == false) {
 			return ResponseEntity.ok("Nothing to show. Start parking first.");
 		} else {
@@ -60,27 +56,27 @@ public class UserController {
 
 	@GetMapping("checkCost/{id}")
 	ResponseEntity<?> checkCost(@PathVariable("id") long id) {
-		
+
 		User user = getUserById(id);
-		
+
 		if (user.isStarted() == false) {
 			return ResponseEntity.ok("Nothing to show. There is no current parking");
 		} else {
-			
+
 			return ResponseEntity.ok(parkingMeterService.checkCost(user));
 		}
 	}
-	
+
 	@GetMapping("endParking/{id}")
-	ResponseEntity<?> endUserParking(@PathVariable("id")long id){
-		
+	ResponseEntity<?> endUserParking(@PathVariable("id") long id) {
+
 		User user = getUserById(id);
-		if(user.isStarted()==false) {
+		if (user.isStarted() == false) {
 			return ResponseEntity.ok("Nothing to be finished.");
-		}else {
+		} else {
 			return ResponseEntity.ok(userService.finishParking(user));
 		}
-		
+
 	}
 
 }

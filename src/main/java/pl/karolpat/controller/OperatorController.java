@@ -24,7 +24,7 @@ public class OperatorController {
 
 	public OperatorController(UserService userService, VehicleService vehicleService) {
 		this.userService = userService;
-		this.vehicleService=vehicleService;
+		this.vehicleService = vehicleService;
 	}
 
 	@RequestMapping("")
@@ -39,12 +39,12 @@ public class OperatorController {
 
 	@PutMapping("/{id}/vip")
 	ResponseEntity<?> setUserAsVip(@RequestBody User tmp, @PathVariable("id") long id) {
-		if(tmp.isStarted()) {
+		if (tmp.isStarted()) {
 			return ResponseEntity.ok("Cannot change vip status on user who uses praking.");
-		}else {
+		} else {
 			return ResponseEntity.ok(userService.setUserAsVip(tmp, id));
 		}
-		
+
 	}
 
 	@GetMapping("/vip")
@@ -53,7 +53,7 @@ public class OperatorController {
 	}
 
 	@PostMapping("/vehicle")
-	ResponseEntity<?> test(@RequestBody String number){
+	ResponseEntity<?> test(@RequestBody String number) {
 		return ResponseEntity.ok(vehicleService.isStarted(vehicleService.getVehiclesByNumber(number)));
 	}
 }

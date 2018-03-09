@@ -12,24 +12,22 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 @Entity
 public class DailyIncome {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonIgnore
 	private long id;
-	
+
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate date;
-	
-	@Column(precision=10, scale=2)
+
+	@Column(precision = 10, scale = 2)
 	private BigDecimal income;
 
-	
-	//GETTERS AND SETTERS
-	
+	// GETTERS AND SETTERS
+
 	public long getId() {
 		return id;
 	}
@@ -58,7 +56,5 @@ public class DailyIncome {
 	public String toString() {
 		return "DailyIncome [id=" + id + ", date=" + date + ", income=" + income + "]";
 	}
-	
-	
-	
+
 }

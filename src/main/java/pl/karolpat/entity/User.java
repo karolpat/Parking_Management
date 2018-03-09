@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -33,10 +32,10 @@ public class User {
 	@Email
 	private String email;
 
-	@Column(columnDefinition="tinyint(1) default 0")
+	@Column(columnDefinition = "tinyint(1) default 0")
 	private boolean vip = false;
-	
-	@Column(columnDefinition="tinyint(1) default 0")
+
+	@Column(columnDefinition = "tinyint(1) default 0")
 	private boolean started = false;
 
 	@OneToMany(mappedBy = "owner")
@@ -48,7 +47,6 @@ public class User {
 	private Set<ParkingMeter> parking;
 
 	// GETERS AND SETTERS
-	
 
 	public long getId() {
 		return id;
@@ -119,7 +117,5 @@ public class User {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", vip="
 				+ vip + ", started=" + started + ", vehicle=" + vehicle + ", parking=" + parking + "]";
 	}
-
-	
 
 }

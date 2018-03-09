@@ -12,23 +12,22 @@ import pl.karolpat.service.DailyIncomeService;
 @RestController
 @RequestMapping("manager")
 public class ManagerController {
-	
+
 	private DailyIncomeService dailyIncomeService;
-	
+
 	public ManagerController(DailyIncomeService dailyIncomeService) {
-		this.dailyIncomeService=dailyIncomeService;
+		this.dailyIncomeService = dailyIncomeService;
 	}
 
-	
 	@PostMapping("/dailyIncome")
-	ResponseEntity dailyIncome(@RequestBody String date) {
-		
+	ResponseEntity<Object> dailyIncome(@RequestBody String date) {
+
 		return ResponseEntity.ok(dailyIncomeService.getOneByDate(date));
 	}
-	
+
 	@GetMapping("/all/dailyIncome")
-	ResponseEntity test() {
+	ResponseEntity<Object> test() {
 		return ResponseEntity.ok(dailyIncomeService.getAllDailyIncome());
 	}
-	
+
 }

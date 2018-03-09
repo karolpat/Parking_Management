@@ -21,7 +21,6 @@ public class ParkingMeter {
 	private long id;
 
 	private Timestamp start;
-
 	private Timestamp end;
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -77,7 +76,7 @@ public class ParkingMeter {
 
 	@Override
 	public String toString() {
-		return "ParkingMeter [id=" + id + ", start=" + start + ", end=" + end + ", user=" + user + "]";
+		return "ParkingMeter [id=" + id + ", start=" + start + ", end=" + end + ", user=" + user + ", vehicle="
+				+ vehicle + "]";
 	}
-
 }
