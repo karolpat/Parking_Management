@@ -1,10 +1,10 @@
 package pl.karolpat.serviceImpl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 import pl.karolpat.entity.DailyIncome;
@@ -31,22 +31,23 @@ public class DailyIncomeServiceImpl implements DailyIncomeService {
 	}
 
 	@Override
-	public DailyIncome getOneByDate(LocalDate date) {
-		return dailyIincomeRepo.findOneByDate(date);
+	public DailyIncome getOneByDate(String date) {
+//		org.joda.time.format.DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+		return dailyIincomeRepo.findOneByDate(null);
 	}
 
-	@Override
-	public DailyIncome save(DailyIncome dailyInc, LocalDate date) {
-		DailyIncome tmp = dailyIincomeRepo.findOne(date);
-		tmp.setIncome(dailyInc.getIncome());
-		return dailyIincomeRepo.save(tmp);
-	}
+//	@Override
+//	public DailyIncome save(DailyIncome dailyInc, LocalDate date) {
+//		DailyIncome tmp = dailyIincomeRepo.findOne(date);
+//		tmp.setIncome(dailyInc.getIncome());
+//		return dailyIincomeRepo.save(tmp);
+//	}
 
 	@Override
 	public DailyIncome addIncome(Map<String, Double> map) {
 		
 		double income = map.get("PLN");
-		LocalDate today = new LocalDate().now();
+		LocalDate today = LocalDate.now();
 		System.out.println(income);
 		
 		DailyIncome dailyInc=dailyIincomeRepo.findOneByDate(today);

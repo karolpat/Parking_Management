@@ -1,6 +1,7 @@
 package pl.karolpat.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,15 +9,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-import org.joda.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 public class DailyIncome {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@JsonIgnore
 	private long id;
 	
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate date;
 	
 	@Column(precision=10, scale=2)

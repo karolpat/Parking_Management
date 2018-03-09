@@ -43,9 +43,6 @@ public class User {
 	@JsonManagedReference
 	private Set<Vehicle> vehicle;
 
-	@OneToOne
-	private Roles role;
-
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
 	private Set<ParkingMeter> parking;
@@ -71,14 +68,6 @@ public class User {
 
 	public void setVehicle(Set<Vehicle> vehicle) {
 		this.vehicle = vehicle;
-	}
-
-	public Roles getRole() {
-		return role;
-	}
-
-	public void setRole(Roles role) {
-		this.role = role;
 	}
 
 	public Set<ParkingMeter> getParking() {
@@ -128,7 +117,9 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", vip="
-				+ vip + ", vehicle=" + vehicle + ", role=" + role + ", parking=" + parking + "]";
+				+ vip + ", started=" + started + ", vehicle=" + vehicle + ", parking=" + parking + "]";
 	}
+
+	
 
 }
