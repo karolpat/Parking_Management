@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
 
 		Map<String, Double> map = parkingMeterService.checkCost(user);
 		dailyIncomeService.addIncome(map);
-		
+
 		return map;
 	}
 

@@ -34,34 +34,33 @@ public class DailyIncomeServiceImpl implements DailyIncomeService {
 
 	@Override
 	public Object getOneByDate(String date) {
-		
+
 		boolean pattern = Pattern.matches("^([0-3][0-9]-[0-1][1-9]-[0-9]{4})$", date);
-		if(pattern) {
+		if (pattern) {
 			DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			return dailyIincomeRepo.findOneByDate(LocalDate.parse(date, df));
-		}else {
+		} else {
 			return "Wrong date format. Must be: \"dd-MM-yyyy\"";
 		}
-		
+
 	}
 
 	@Override
 	public DailyIncome addIncome(Map<String, Double> map) {
-		
+
 		double income = map.get("PLN");
 		LocalDate today = LocalDate.now();
 		System.out.println(income);
-		
-		DailyIncome dailyInc=dailyIincomeRepo.findOneByDate(today);
-		if(dailyInc==null) {
+
+		DailyIncome dailyInc = dailyIincomeRepo.findOneByDate(today);
+		if (dailyInc == null) {
 			dailyInc = new DailyIncome();
 			dailyInc.setDate(today);
 			dailyInc.setIncome(new BigDecimal(income));
-		}else {
+		} else {
 			dailyInc.setIncome(dailyInc.getIncome().add(new BigDecimal(income)));
 		}
-		
-		
+
 		return dailyIincomeRepo.save(dailyInc);
 	}
 

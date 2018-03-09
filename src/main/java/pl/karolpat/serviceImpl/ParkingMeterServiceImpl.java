@@ -45,12 +45,12 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 
 		Map<String, Double> map = new HashMap<>();
 		map.put("Hours spent", (double) hours);
-		
+
 		if (user.isVip() == true) {
-			map.put("PLN", round(getCostIfVip(hours),2));
+			map.put("PLN", round(getCostIfVip(hours), 2));
 			return map;
 		} else {
-			map.put("PLN", round(getCostUnlessVip(hours),2));
+			map.put("PLN", round(getCostUnlessVip(hours), 2));
 			return map;
 		}
 
@@ -60,10 +60,10 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 	public int getCurrentHours(long id) {
 
 		ParkingMeter current = findUserParkingMeter(id);
-		
+
 		long start = TimeUnit.MINUTES.convert(current.getStart().getTime(), TimeUnit.MILLISECONDS);
 		long now = TimeUnit.MINUTES.convert(new Timestamp(System.currentTimeMillis()).getTime(), TimeUnit.MILLISECONDS);
-		
+
 		int hours = (int) (now - start) / 60;
 		return hours;
 	}
@@ -92,7 +92,7 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 
 		if (hours > 0) {
 			for (int i = 0; i < hours; i++) {
-				
+
 				price += perHour;
 				perHour *= 2;
 			}
@@ -100,16 +100,16 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 
 		return price;
 	}
-	
+
 	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
+		if (places < 0)
+			throw new IllegalArgumentException();
 
-	    long factor = (long) Math.pow(10, places);
-	    value = value * factor;
-	    long tmp = Math.round(value);
-	    return (double) tmp / factor;
+		long factor = (long) Math.pow(10, places);
+		value = value * factor;
+		long tmp = Math.round(value);
+		return (double) tmp / factor;
 	}
-
 
 	@Override
 	public ParkingMeter saveSetEnd(User user) {

@@ -1,7 +1,6 @@
 package pl.karolpat.serviceImpl;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.springframework.stereotype.Service;
 

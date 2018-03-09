@@ -8,6 +8,5 @@ import pl.karolpat.entity.User;
 
 public interface UserRepo extends JpaRepository<User, Long> {
 
-	
 	List<User> findAllByVip(boolean vip);
 }
