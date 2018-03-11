@@ -22,8 +22,6 @@ public class OperatorController {
 
 	private UserService userService;
 	private VehicleService vehicleService;
-	
-	static private String VIP_STATUS_CHANGE = "Cannot change vip status on user who uses praking.";
 
 	public OperatorController(UserService userService, VehicleService vehicleService) {
 		this.userService = userService;
@@ -63,12 +61,8 @@ public class OperatorController {
 	 *         operation failed.
 	 */
 	@PutMapping("/{id}/vip")
-	ResponseEntity<?> setUserAsVip(@RequestBody User tmp, @PathVariable("id") long id) {
-		if (tmp.isStarted()) {
-			return ResponseEntity.ok(VIP_STATUS_CHANGE);
-		} else {
-			return ResponseEntity.ok(userService.setUserAsVip(tmp, id));
-		}
+	ResponseEntity<Object> setUserAsVip(@PathVariable("id") long id) {
+		return ResponseEntity.ok(userService.setUserAsVip(id));
 
 	}
 
