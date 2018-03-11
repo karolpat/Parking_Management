@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import pl.karolpat.entity.DailyIncome;
 import pl.karolpat.entity.ParkingMeter;
 import pl.karolpat.entity.User;
 import pl.karolpat.entity.Vehicle;
@@ -47,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Object save(String username) {
 
-		User user = getOneByUsername(username);
+		User user = userRepo.findOneByUsername(username);
 		if (user != null) {
 
 			return NOT_VALID_USERNAME;
@@ -101,12 +102,12 @@ public class UserServiceImpl implements UserService {
 
 		parkingMeterService.saveSetEnd(user);
 		
-		//User's started status is false again, so that User can start new parking meter.
+		// User's started status is false again, so that User can start new parking meter.
 		user.setStarted(false); 
 		userRepo.save(user);
 
 		Map<String, Double> map = parkingMeterService.checkCost(user);
-		dailyIncomeService.addIncome(map);
+		DailyIncome dailyIncome = dailyIncomeService.addIncome(map);
 
 		return map;
 	}

@@ -34,6 +34,12 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	@JsonManagedReference
 	private Set<ParkingMeter> parking;
+	
+	public User() {}
+
+	public User(String username) {
+		this.username = username;
+	}
 
 	// GETERS AND SETTERS
 
