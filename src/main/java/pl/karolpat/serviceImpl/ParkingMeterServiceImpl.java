@@ -13,10 +13,17 @@ import pl.karolpat.entity.User;
 import pl.karolpat.repository.ParkingMeterRepo;
 import pl.karolpat.service.ParkingMeterService;
 
+/**
+ * @author karolpat
+ *
+ */
 @Service
 public class ParkingMeterServiceImpl implements ParkingMeterService {
 
 	private ParkingMeterRepo parkingMeterRepo;
+
+	static private String HOURS = "Hours spent";
+	static private String PLN_CURRENCY = "PLN";
 
 	public ParkingMeterServiceImpl(ParkingMeterRepo parkingMeterRepo) {
 		this.parkingMeterRepo = parkingMeterRepo;
@@ -41,16 +48,16 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 	@Override
 	public Map<String, Double> checkCost(User user) {
 
-		int hours = getCurrentHours(user.getId());
+		int hours = getCurrentHours(user.getId()); // Number of hours that user spent at the parking.
 
 		Map<String, Double> map = new HashMap<>();
-		map.put("Hours spent", (double) hours);
+		map.put(HOURS, (double) hours); // hours as a value to HOURS String key.
 
-		if (user.isVip() == true) {
-			map.put("PLN", round(getCostIfVip(hours), 2));
+		if (user.isVip() == true) { // Depending on User's vip status total cost will be different
+			map.put(PLN_CURRENCY, round(getCostIfVip(hours), 2));
 			return map;
 		} else {
-			map.put("PLN", round(getCostUnlessVip(hours), 2));
+			map.put(PLN_CURRENCY, round(getCostUnlessVip(hours), 2));
 			return map;
 		}
 
@@ -59,12 +66,15 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 	@Override
 	public int getCurrentHours(long id) {
 
-		ParkingMeter current = findUserParkingMeter(id);
+		ParkingMeter current = findUserParkingMeter(id); // First ParkingMeter found by user id ordered by start date.
 
+		// Converts start date to minutes.
 		long start = TimeUnit.MINUTES.convert(current.getStart().getTime(), TimeUnit.MILLISECONDS);
+
+		// Converts end date (that is actually current time) to minutes.
 		long now = TimeUnit.MINUTES.convert(new Timestamp(System.currentTimeMillis()).getTime(), TimeUnit.MILLISECONDS);
 
-		int hours = (int) (now - start) / 60;
+		int hours = (int) (now - start) / 60; // Converts difference of start and end time (minutes) to hours.
 		return hours;
 	}
 
@@ -101,6 +111,23 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		return price;
 	}
 
+	@Override
+	public ParkingMeter saveSetEnd(User user) {
+		ParkingMeter parkingMeter = parkingMeterRepo.getFirstByUserIdOrderByStart(user.getId());
+		parkingMeter.setEnd(new Timestamp(System.currentTimeMillis()));
+		return parkingMeter;
+	}
+
+	/**
+	 * Simple method to round given double value so that returned value has exactly
+	 * two decimal places.
+	 * 
+	 * @param value
+	 *            double value to be rounded.
+	 * @param places
+	 *            number of decimal places in returned double value.
+	 * @return Rounded double value with given decimal places.
+	 */
 	public static double round(double value, int places) {
 		if (places < 0)
 			throw new IllegalArgumentException();
@@ -109,13 +136,6 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		value = value * factor;
 		long tmp = Math.round(value);
 		return (double) tmp / factor;
-	}
-
-	@Override
-	public ParkingMeter saveSetEnd(User user) {
-		ParkingMeter parkingMeter = parkingMeterRepo.getFirstByUserIdOrderByStart(user.getId());
-		parkingMeter.setEnd(new Timestamp(System.currentTimeMillis()));
-		return parkingMeter;
 	}
 
 }
