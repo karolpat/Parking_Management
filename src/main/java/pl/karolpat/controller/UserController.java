@@ -42,6 +42,20 @@ public class UserController {
 	}
 
 	/**
+	 * Creates new user with given username. Username as a String is required to be
+	 * key in.
+	 * 
+	 * @param username
+	 *            given String that is user's username.
+	 * @return String in case input String is already present in the database or
+	 *         User instance when creating new user is successful.
+	 */
+	@PostMapping("/create")
+	ResponseEntity<Object> createNewUser(@RequestBody String username) {
+		return ResponseEntity.ok(userService.save(username));
+	}
+
+	/**
 	 * User of given id starts the parking meter. Current time is saved in
 	 * parkingMeter instance as a start and end is null until users ends the parking
 	 * meter. PostMapping is used as well as RequestedBody. User has to key in the

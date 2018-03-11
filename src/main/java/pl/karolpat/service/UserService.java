@@ -10,8 +10,10 @@ public interface UserService {
 	List<User> getAllUsers();
 
 	User getOneById(long id);
+	
+	User getOneByUsername(String username);
 
-	User save(User user);
+	Object save(String username);
 
 	User setUserAsVip(User tmp, long id);
 

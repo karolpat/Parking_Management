@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
 	private ParkingMeterService parkingMeterService;
 	private DailyIncomeService dailyIncomeService;
 
+	static private String NOT_VALID_USERNAME = "Username not available. Please select another one.";
+
 	public UserServiceImpl(UserRepo userRepo, VehicleService vehicleService, ParkingMeterService parkingMeterService,
 			DailyIncomeService dailyIncomeService) {
 		this.userRepo = userRepo;
@@ -42,8 +44,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User save(User user) {
-		return userRepo.save(user);
+	public Object save(String username) {
+
+		User user = getOneByUsername(username);
+		if (user != null) {
+			
+			return NOT_VALID_USERNAME;
+		}else {
+			
+			user = new User();
+			user.setUsername(username);
+			return userRepo.save(user);
+		}
+		
 	}
 
 	@Override
@@ -88,6 +101,11 @@ public class UserServiceImpl implements UserService {
 		dailyIncomeService.addIncome(map);
 
 		return map;
+	}
+
+	@Override
+	public User getOneByUsername(String username) {
+		return userRepo.findOneByUsername(username);
 	}
 
 }
