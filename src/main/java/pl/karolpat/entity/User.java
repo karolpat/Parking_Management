@@ -9,9 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -23,14 +20,6 @@ public class User {
 
 	@Column(unique = true, nullable = false)
 	private String username;
-
-	@Column(nullable = false)
-	@NotBlank
-	private String password;
-
-	@Column(unique = true, nullable = false)
-	@Email
-	private String email;
 
 	@Column(columnDefinition = "tinyint(1) default 0")
 	private boolean vip = false;
@@ -88,22 +77,6 @@ public class User {
 		this.username = username;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public boolean isVip() {
 		return vip;
 	}
@@ -114,8 +87,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", email=" + email + ", vip="
-				+ vip + ", started=" + started + ", vehicle=" + vehicle + ", parking=" + parking + "]";
+		return "User [id=" + id + ", username=" + username + ", vip=" + vip + ", started=" + started + ", vehicle="
+				+ vehicle + ", parking=" + parking + "]";
 	}
 
 }
