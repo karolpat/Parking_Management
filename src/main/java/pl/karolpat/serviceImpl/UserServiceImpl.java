@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 	private DailyIncomeService dailyIncomeService;
 
 	static private String NOT_VALID_USERNAME = "Username not available. Please select another one.";
+	static private String VIP_STATUS_CHANGE = "Cannot change vip status on user who uses praking.";
 
 	public UserServiceImpl(UserRepo userRepo, VehicleService vehicleService, ParkingMeterService parkingMeterService,
 			DailyIncomeService dailyIncomeService) {
@@ -48,23 +49,32 @@ public class UserServiceImpl implements UserService {
 
 		User user = getOneByUsername(username);
 		if (user != null) {
-			
+
 			return NOT_VALID_USERNAME;
-		}else {
-			
+		} else {
+
 			user = new User();
 			user.setUsername(username);
 			return userRepo.save(user);
 		}
-		
+
 	}
 
 	@Override
-	public User setUserAsVip(User tmp, long id) {
+	public Object setUserAsVip(long id) {
+
 		User user = userRepo.findOne(id);
-		user.setVip(tmp.isVip());
-		userRepo.save(user);
-		return user;
+
+		if (user.isStarted()) {
+			return VIP_STATUS_CHANGE;
+
+		} else {
+
+			user.setVip(true);
+			userRepo.save(user);
+			return user;
+		}
+
 	}
 
 	@Override
@@ -79,22 +89,20 @@ public class UserServiceImpl implements UserService {
 		Vehicle vehicle = vehicleService.createVehicle(number, user);
 		userRepo.save(user);
 
+		// When User starts parking meter, creates instance of ParkingMeter with current
+		// time as start.
 		ParkingMeter parkingMeter = new ParkingMeter(new Timestamp(System.currentTimeMillis()), user, vehicle);
 		parkingMeterService.save(parkingMeter);
 		return user;
 	}
 
 	@Override
-	public User checkParking(User user) {
-
-		return null;
-	}
-
-	@Override
 	public Map<String, Double> finishParking(User user) {
 
 		parkingMeterService.saveSetEnd(user);
-		user.setStarted(false);
+		
+		//User's started status is false again, so that User can start new parking meter.
+		user.setStarted(false); 
 		userRepo.save(user);
 
 		Map<String, Double> map = parkingMeterService.checkCost(user);
