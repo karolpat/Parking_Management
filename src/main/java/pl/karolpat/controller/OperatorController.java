@@ -33,7 +33,7 @@ public class OperatorController {
 	/**
 	 * At address localhost:5555/users list of all users is shown.
 	 * 
-	 * @return List of all User entities.
+	 * @return List of all User instances.
 	 */
 	@RequestMapping("")
 	ResponseEntity<List<User>> getUsers() {
@@ -45,7 +45,7 @@ public class OperatorController {
 	 * 
 	 * @param id
 	 *            given in URL id of User to be shown.
-	 * @return User entity of given id or nothing if there is no user of such id.
+	 * @return User instance of given id or nothing if there is no user of such id.
 	 */
 	@RequestMapping("/{id}")
 	ResponseEntity<User> getUserById(@PathVariable("id") long id) {
@@ -56,7 +56,7 @@ public class OperatorController {
 	 * Sets User status as VIP so that this User will pay less for the parking.
 	 * 
 	 * @param tmp
-	 *            User entity that is the input.
+	 *            User instance that is the input.
 	 * @param id
 	 *            id of User whose vip status is going to change
 	 * @return User whose vip status has been changed or a String indicating that
@@ -75,7 +75,7 @@ public class OperatorController {
 	/**
 	 * Shows list of all User having vip status.
 	 * 
-	 * @return List of User entities that are vips.
+	 * @return List of User instances that are vips.
 	 */
 	@GetMapping("/vip")
 	ResponseEntity<List<User>> showAllVips() {

@@ -28,7 +28,7 @@ public class ManagerController {
 	 * 
 	 * @param date
 	 *            input String of date that manager wants to check income of.
-	 * @return DailyIncome entity of given date and the sum of income or String if
+	 * @return DailyIncome instance of given date and the sum of income or String if
 	 *         the input String does not pass the regex.
 	 */
 	@PostMapping("/dailyIncome")
@@ -39,7 +39,7 @@ public class ManagerController {
 	/**
 	 * Shows list of incomes in all days.
 	 * 
-	 * @return List of DailyIncome entities.
+	 * @return List of DailyIncome instances.
 	 */
 	@GetMapping("/all/dailyIncome")
 	ResponseEntity<List<DailyIncome>> incomeListOfAllDays() {

@@ -35,7 +35,7 @@ public class UserController {
 	 * 
 	 * @param id
 	 *            id of user to be found.
-	 * @return User entity of given id.
+	 * @return User instance of given id.
 	 */
 	public User getUserById(long id) {
 		return userService.getOneById(id);
@@ -43,7 +43,7 @@ public class UserController {
 
 	/**
 	 * User of given id starts the parking meter. Current time is saved in
-	 * parkingMeter entity as a start and end is null until users ends the parking
+	 * parkingMeter instance as a start and end is null until users ends the parking
 	 * meter. PostMapping is used as well as RequestedBody. User has to key in the
 	 * registration number as a String preferably. I used Postman to do that.
 	 * 
@@ -51,7 +51,7 @@ public class UserController {
 	 *            registration number of the vehicle that user has to key in.
 	 * @param id
 	 *            id of user who is starting the parking meter.
-	 * @return User entity of user who started the parking meter.
+	 * @return User instance who started the parking meter.
 	 */
 	@PostMapping("startParking/{id}")
 	ResponseEntity<Object> startParking(@RequestBody String vehicleNumber, @PathVariable("id") long id) {
@@ -72,7 +72,7 @@ public class UserController {
 	 * @param id
 	 *            id of user who checks whether the parking meter has stared.
 	 * @return String in case user has not started the parking meter, parkingMeter
-	 *         entity in case user has started the parking meter.
+	 *         instance in case user has started the parking meter.
 	 */
 	@GetMapping("checkParking/{id}")
 	ResponseEntity<Object> checkParking(@PathVariable("id") long id) {
@@ -111,7 +111,7 @@ public class UserController {
 
 	/**
 	 * User of given id stops the parking meter. The time of the finish is save to
-	 * parkingMeter entity. The cost of stay is counted and presented to user as
+	 * parkingMeter instance. The cost of stay is counted and presented to user as
 	 * well as the time of the stay.
 	 * 
 	 * @param id
