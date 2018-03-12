@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ public class ParkingMeterServiceTest {
 	User user1;
 	String HOURS;
 	String PLN_CURRENCY;
+	Timestamp start;
 
 	@Before
 	public void setUp() throws Exception {
@@ -41,6 +44,11 @@ public class ParkingMeterServiceTest {
 		parkingMeter1 = new ParkingMeter();
 		parkingMeter2 = new ParkingMeter();
 		user1 = new User();
+
+		Calendar calendar = Calendar.getInstance();    //This block is to create time that will
+		calendar.setTime(new Date());					//be constant for tests to eliminate
+		calendar.add(Calendar.HOUR, -5);				//failures caused by difference in current time.
+		start = new Timestamp(calendar.getTimeInMillis());
 
 	}
 
@@ -84,57 +92,45 @@ public class ParkingMeterServiceTest {
 		assertEquals(list, result);
 	}
 
-	/**
-	 * This test will be valid only when given valueOf will be 5 hours before the
-	 * current time of running the test. It is because in the ParkingMeterServis
-	 * getCurrentHours method there is calling for the current time.
-	 * 
-	 */
 	@Test
 	public void testCheckCost_when_users_is_vip() {
 
-		parkingMeter1.setStart(Timestamp.valueOf("2018-03-12 14:03:00"));
-		
+		parkingMeter1.setStart(start);
+
 		user1.setId(1);
-		user1.setVip(true); //User's vip status to true
-		
+		user1.setVip(true); // User's vip status to true
+
 		Set<ParkingMeter> parkings = new HashSet<>();
 		parkings.add(parkingMeter1);
 		user1.setParking(parkings);
-		
+
 		when(parkingMeterRepo.getFirstByUserIdOrderByStart(1l)).thenReturn(parkingMeter1);
-		
+
 		Map<String, Double> map = parkingMeterService.checkCost(user1);
-		
+
 		assertNotNull(map);
 		assertThat(map).containsKey("PLN");
 		assertThat(map).containsValue(16.25);
 		assertThat(map).containsKey("Hours spent");
 		assertThat(map).containsValue(5.0);
 	}
-	
-	/**
-	 * This test will be valid only when given valueOf will be 5 hours before the
-	 * current time of running the test. It is because in the ParkingMeterServis
-	 * getCurrentHours method there is calling for the current time.
-	 * 
-	 */
+
 	@Test
 	public void testCheckCost_when_users_is_NOT_vip() {
 
-		parkingMeter1.setStart(Timestamp.valueOf("2018-03-12 14:03:00"));
-		
+		parkingMeter1.setStart(start);
+
 		user1.setId(1);
-		user1.setVip(false); //User's vip status to false
-		
+		user1.setVip(false); // User's vip status to false
+
 		Set<ParkingMeter> parkings = new HashSet<>();
 		parkings.add(parkingMeter1);
 		user1.setParking(parkings);
-		
+
 		when(parkingMeterRepo.getFirstByUserIdOrderByStart(1l)).thenReturn(parkingMeter1);
-		
+
 		Map<String, Double> map = parkingMeterService.checkCost(user1);
-		
+
 		assertNotNull(map);
 		assertThat(map).containsKey("PLN");
 		assertThat(map).containsValue(31.0);
@@ -142,16 +138,10 @@ public class ParkingMeterServiceTest {
 		assertThat(map).containsValue(5.0);
 	}
 
-	/**
-	 * This test will be valid only when given valueOf will be 5 hours before the
-	 * current time of running the test. It is because in the ParkingMeterServis
-	 * getCurrentHours method there is calling for the current time.
-	 * 
-	 */
 	@Test
 	public void testGetCurrentHours() {
 
-		parkingMeter1.setStart(Timestamp.valueOf("2018-03-12 14:00:00"));
+		parkingMeter1.setStart(start);
 		when(parkingMeterRepo.getFirstByUserIdOrderByStart(1l)).thenReturn(parkingMeter1);
 
 		int result = parkingMeterService.getCurrentHours(1l);
