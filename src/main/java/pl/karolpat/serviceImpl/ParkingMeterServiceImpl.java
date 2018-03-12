@@ -66,7 +66,7 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 	@Override
 	public int getCurrentHours(long id) {
 
-		ParkingMeter current = findUserParkingMeter(id); // First ParkingMeter found by user id ordered by start date.
+		ParkingMeter current = parkingMeterRepo.getFirstByUserIdOrderByStart(id);// First ParkingMeter found by user id ordered by start date.
 
 		// Converts start date to minutes.
 		long start = TimeUnit.MINUTES.convert(current.getStart().getTime(), TimeUnit.MILLISECONDS);
@@ -85,7 +85,7 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		double price = 0;
 
 		if (hours > 0) {
-			for (int i = 0; i < hours; i++) {
+			for (int i = 1; i < hours; i++) {
 				price += perHour;
 				perHour *= 1.5;
 			}
@@ -101,7 +101,7 @@ public class ParkingMeterServiceImpl implements ParkingMeterService {
 		double price = 1;
 
 		if (hours > 0) {
-			for (int i = 0; i < hours; i++) {
+			for (int i = 1; i < hours; i++) {
 
 				price += perHour;
 				perHour *= 2;
