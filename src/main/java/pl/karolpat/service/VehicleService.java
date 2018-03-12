@@ -1,6 +1,7 @@
 package pl.karolpat.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import pl.karolpat.entity.User;
 import pl.karolpat.entity.Vehicle;
@@ -13,6 +14,6 @@ public interface VehicleService {
 
 	List<Vehicle> getVehiclesByNumber(String number);
 
-	Object isStarted(List<Vehicle> list);
+	Optional<Vehicle> isStarted(List<Vehicle> list);
 
 }
