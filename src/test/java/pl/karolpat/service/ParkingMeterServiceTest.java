@@ -3,7 +3,6 @@ package pl.karolpat.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
@@ -17,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.stubbing.Stubber;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import pl.karolpat.entity.ParkingMeter;
@@ -98,7 +96,7 @@ public class ParkingMeterServiceTest {
 		parkingMeter1.setStart(Timestamp.valueOf("2018-03-12 14:03:00"));
 		
 		user1.setId(1);
-		user1.setVip(true);
+		user1.setVip(true); //User's vip status to true
 		
 		Set<ParkingMeter> parkings = new HashSet<>();
 		parkings.add(parkingMeter1);
@@ -111,6 +109,35 @@ public class ParkingMeterServiceTest {
 		assertNotNull(map);
 		assertThat(map).containsKey("PLN");
 		assertThat(map).containsValue(16.25);
+		assertThat(map).containsKey("Hours spent");
+		assertThat(map).containsValue(5.0);
+	}
+	
+	/**
+	 * This test will be valid only when given valueOf will be 5 hours before the
+	 * current time of running the test. It is because in the ParkingMeterServis
+	 * getCurrentHours method there is calling for the current time.
+	 * 
+	 */
+	@Test
+	public void testCheckCost_when_users_is_NOT_vip() {
+
+		parkingMeter1.setStart(Timestamp.valueOf("2018-03-12 14:03:00"));
+		
+		user1.setId(1);
+		user1.setVip(false); //User's vip status to false
+		
+		Set<ParkingMeter> parkings = new HashSet<>();
+		parkings.add(parkingMeter1);
+		user1.setParking(parkings);
+		
+		when(parkingMeterRepo.getFirstByUserIdOrderByStart(1l)).thenReturn(parkingMeter1);
+		
+		Map<String, Double> map = parkingMeterService.checkCost(user1);
+		
+		assertNotNull(map);
+		assertThat(map).containsKey("PLN");
+		assertThat(map).containsValue(31.0);
 		assertThat(map).containsKey("Hours spent");
 		assertThat(map).containsValue(5.0);
 	}
