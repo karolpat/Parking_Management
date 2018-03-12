@@ -1,10 +1,7 @@
 package pl.karolpat.service;
 
-import static org.assertj.core.api.Assertions.allOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -17,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import junit.framework.Assert;
 import pl.karolpat.entity.User;
 import pl.karolpat.entity.Vehicle;
 import pl.karolpat.repository.VehicleRepo;
