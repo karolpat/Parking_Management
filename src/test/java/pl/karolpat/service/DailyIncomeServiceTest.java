@@ -54,7 +54,7 @@ public class DailyIncomeServiceTest {
 		List<DailyIncome> result = dailyIncomeService.getAllDailyIncome();
 		// then
 		assertThat(result).hasOnlyElementsOfType(DailyIncome.class);
-		assertEquals(result, list);
+		assertEquals(list, result);
 	}
 
 	@Test
@@ -79,7 +79,7 @@ public class DailyIncomeServiceTest {
 		Object result = dailyIncomeService.getOneByDate(dateIncorrect);
 		
 		assertThat(result).isInstanceOf(String.class);
-		assertNotEquals(result, dailyInc1);
+		assertNotEquals(dailyInc1, result);
 	}
 	
 	@Test
@@ -108,7 +108,7 @@ public class DailyIncomeServiceTest {
 		DailyIncome result = dailyIncomeService.addIncome(map);
 		
 		assertThat(result).isNotNull();
-		assertEquals(result.getIncome(), new BigDecimal(6));
+		assertEquals(new BigDecimal(6), result.getIncome() );
 		
 	}
 
