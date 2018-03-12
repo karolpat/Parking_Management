@@ -1,6 +1,7 @@
 package pl.karolpat.serviceImpl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public Vehicle save(Vehicle vehicle) {
-		vehicleRepo.save(vehicle);
-		return vehicle;
+		return vehicleRepo.save(vehicle);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public Object isStarted(List<Vehicle> list) {
+	public Optional<Vehicle> isStarted(List<Vehicle> list) {
 		return list.stream().filter(v -> v.getOwner().isStarted()).findFirst();
 
 	}
