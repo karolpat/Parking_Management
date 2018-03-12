@@ -64,7 +64,7 @@ public class UserServiceTest {
 		// when
 		List<User> result = userService.getAllUsers();
 		// then
-		assertEquals(result.size(), users.size());
+		assertEquals(users.size(), result.size());
 		assertThat(result).hasOnlyElementsOfType(User.class);
 	}
 
@@ -105,7 +105,7 @@ public class UserServiceTest {
 
 		Object result = userService.setUserAsVip(1l);
 
-		assertEquals(result, user1);
+		assertEquals(user1, result);
 		assertThat(result).isInstanceOf(User.class);
 		assertThat(((User) result).isVip()).isEqualTo(true);
 
@@ -198,7 +198,7 @@ public class UserServiceTest {
 
 		Map<String, Double> result = userService.finishParking(user1);
 
-		assertEquals(result, map);
+		assertEquals(map, result);
 	}
 
 	@Test
@@ -209,7 +209,7 @@ public class UserServiceTest {
 		User result = userService.getOneByUsername("Karol");
 
 		assertThat(result.getUsername()).isEqualTo("Karol");
-		assertEquals(result, user1);
+		assertEquals(user1, result);
 	}
 
 }
