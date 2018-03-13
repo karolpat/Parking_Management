@@ -30,15 +30,15 @@ public class UserController {
 	}
 
 	/**
-	 * Method to find User by given id. Used in action in this controller multiple
+	 * Method to find User by given username. Used in action in this controller multiple
 	 * times.
 	 * 
-	 * @param id
-	 *            id of user to be found.
-	 * @return User instance of given id.
+	 * @param username
+	 *            username of user to be found.
+	 * @return User instance of given username.
 	 */
-	public User getUserById(long id) {
-		return userService.getOneById(id);
+	public User getUserByUsername(String username) {
+		return userService.getOneByUsername(username);
 	}
 
 	/**
@@ -50,27 +50,27 @@ public class UserController {
 	 * @return String in case input String is already present in the database or
 	 *         User instance when creating new user is successful.
 	 */
-	@PostMapping("/create")
+	@PostMapping("create")
 	ResponseEntity<Object> createNewUser(@RequestBody String username) {
 		return ResponseEntity.ok(userService.save(username));
 	}
 
 	/**
-	 * User of given id starts the parking meter. Current time is saved in
+	 * User of given username starts the parking meter. Current time is saved in
 	 * parkingMeter instance as a start and end is null until users ends the parking
 	 * meter. PostMapping is used as well as RequestedBody. User has to key in the
 	 * registration number as a String preferably. I used Postman to do that.
 	 * 
 	 * @param vehicleNumber
 	 *            registration number of the vehicle that user has to key in.
-	 * @param id
-	 *            id of user who is starting the parking meter.
+	 * @param username
+	 *            username of user who is starting the parking meter.
 	 * @return User instance who started the parking meter.
 	 */
-	@PostMapping("startParking/{id}")
-	ResponseEntity<Object> startParking(@RequestBody String vehicleNumber, @PathVariable("id") long id) {
+	@PostMapping("startParking/{username}")
+	ResponseEntity<Object> startParking(@RequestBody String vehicleNumber, @PathVariable("username") String username) {
 
-		User user = getUserById(id);
+		User user = getUserByUsername(username);
 
 		if (user.isStarted() == true) {
 			return ResponseEntity.ok(FINISH_PREVIOUS_PARKING);
@@ -83,20 +83,20 @@ public class UserController {
 	/**
 	 * User checks if parking meter has started and if yes, at what time.
 	 * 
-	 * @param id
-	 *            id of user who checks whether the parking meter has stared.
+	 * @param username
+	 *            username of user who checks whether the parking meter has stared.
 	 * @return String in case user has not started the parking meter, parkingMeter
 	 *         instance in case user has started the parking meter.
 	 */
-	@GetMapping("checkParking/{id}")
-	ResponseEntity<Object> checkParking(@PathVariable("id") long id) {
+	@GetMapping("checkParking/{username}")
+	ResponseEntity<Object> checkParking(@PathVariable("username") String username) {
 
-		User user = getUserById(id);
+		User user = getUserByUsername(username);
 
 		if (user.isStarted() == false) {
 			return ResponseEntity.ok(START_PARKING_FIRST);
 		} else {
-			return ResponseEntity.ok(parkingMeterService.findUserParkingMeter(id));
+			return ResponseEntity.ok(parkingMeterService.findUserParkingMeter(user.getId()));
 		}
 
 	}
@@ -105,15 +105,15 @@ public class UserController {
 	 * User checks how much would pay if ending parking meter is at the time of
 	 * checking.
 	 * 
-	 * @param id
-	 *            id of user who checks the cost.
+	 * @param username
+	 *            username of user who checks the cost.
 	 * @return String in case user has not started the parking meter, cost and time
 	 *         of stay in case user has started the parking.
 	 */
-	@GetMapping("checkCost/{id}")
-	ResponseEntity<?> checkCost(@PathVariable("id") long id) {
+	@GetMapping("checkCost/{username}")
+	ResponseEntity<?> checkCost(@PathVariable("username") String username) {
 
-		User user = getUserById(id);
+		User user = getUserByUsername(username);
 
 		if (user.isStarted() == false) {
 			return ResponseEntity.ok(NO_CURRENT_PARKING);
@@ -124,20 +124,20 @@ public class UserController {
 	}
 
 	/**
-	 * User of given id stops the parking meter. The time of the finish is save to
+	 * User of given username stops the parking meter. The time of the finish is save to
 	 * parkingMeter instance. The cost of stay is counted and presented to user as
 	 * well as the time of the stay.
 	 * 
-	 * @param id
-	 *            id of user who stops the parking meter.
+	 * @param username
+	 *            username of user who stops the parking meter.
 	 * @return String in case user has not started the parking so that can not
 	 *         finish any. Total cost and time of stay is presented in case user
 	 *         stops the parking meter successfully.
 	 */
-	@PostMapping("endParking/{id}")
-	ResponseEntity<?> endUserParking(@PathVariable("id") long id) {
+	@PostMapping("endParking/{username}")
+	ResponseEntity<?> endUserParking(@PathVariable("username") String username) {
 
-		User user = getUserById(id);
+		User user = getUserByUsername(username);
 		if (user.isStarted() == false) {
 			return ResponseEntity.ok(NOTHING_TO_FINISH);
 		} else {
