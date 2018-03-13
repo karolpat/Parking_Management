@@ -1,6 +1,15 @@
 # Parking_Management
 
-## All commits are pushed to task branch so far.
+### Starting the application
+
+First fork and clone the repository. Then in the project directory Parking_Management open terminal and key in
+
+```
+./start.sh
+```
+
+To check functionalities use Postman preferably on localhost:555/
+Ther is a text file address.txt containing all addresses.
 
 ### REST API for car parking management. 
 
