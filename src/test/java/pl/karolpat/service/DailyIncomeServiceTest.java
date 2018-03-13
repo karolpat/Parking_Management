@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +42,12 @@ public class DailyIncomeServiceTest {
 		dailyIncomeService = new DailyIncomeServiceImpl(dailyIncomeRepo);
 		dailyInc1 = new DailyIncome();
 		dailyInc2 = new DailyIncome();
-		dateCorrect = "12-03-2018";
-		dateIncorrect="23-45-2ss2";
+		
+		LocalDate localDate = LocalDate.now();									//This is to create two current dates.
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy"); //One is correct, passing regex,
+		String formattedString = localDate.format(formatter);					 // while the second not.
+		dateCorrect = formattedString;
+		dateIncorrect=formattedString.concat("p");
 	}
 
 	@Test
@@ -76,10 +81,10 @@ public class DailyIncomeServiceTest {
 		dailyInc1.setDate(LocalDate.now());
 		when(dailyIncomeRepo.findOneByDate(LocalDate.now())).thenReturn(dailyInc1);
 		
-		Object result = dailyIncomeService.getOneByDate(dateIncorrect);
+		Object result = dailyIncomeService.getOneByDate(dateCorrect);
 		
-		assertThat(result).isInstanceOf(String.class);
-		assertNotEquals(dailyInc1, result);
+		assertThat(result).isInstanceOf(DailyIncome.class);
+		assertEquals(dailyInc1, result);
 	}
 	
 	@Test
@@ -88,9 +93,9 @@ public class DailyIncomeServiceTest {
 		dailyInc1.setDate(LocalDate.now());
 		when(dailyIncomeRepo.findOneByDate(LocalDate.now())).thenReturn(dailyInc1);
 		
-		Object result = dailyIncomeService.getOneByDate(dateCorrect);
+		Object result = dailyIncomeService.getOneByDate(dateIncorrect);
 		
-		assertThat(result).isInstanceOf(DailyIncome.class);
+		assertThat(result).isInstanceOf(String.class);
 	}
 
 	@Test
