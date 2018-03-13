@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +14,7 @@ import pl.karolpat.entity.DailyIncome;
 import pl.karolpat.service.DailyIncomeService;
 
 @RestController
-@RequestMapping("manager")
+@RequestMapping("manager/")
 public class ManagerController {
 
 	private DailyIncomeService dailyIncomeService;
@@ -31,8 +32,8 @@ public class ManagerController {
 	 * @return DailyIncome instance of given date and the sum of income or String if
 	 *         the input String does not pass the regex.
 	 */
-	@PostMapping("/dailyIncome")
-	ResponseEntity<Object> dailyIncome(@RequestBody String date) {
+	@GetMapping("dailyIncome/{date}")
+	ResponseEntity<Object> dailyIncome(@PathVariable("date") String date) {
 		return ResponseEntity.ok(dailyIncomeService.getOneByDate(date));
 	}
 
@@ -41,7 +42,7 @@ public class ManagerController {
 	 * 
 	 * @return List of DailyIncome instances.
 	 */
-	@GetMapping("/all/dailyIncome")
+	@GetMapping("all/dailyIncome")
 	ResponseEntity<List<DailyIncome>> incomeListOfAllDays() {
 		return ResponseEntity.ok(dailyIncomeService.getAllDailyIncome());
 	}

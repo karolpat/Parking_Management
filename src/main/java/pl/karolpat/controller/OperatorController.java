@@ -17,7 +17,7 @@ import pl.karolpat.service.UserService;
 import pl.karolpat.service.VehicleService;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("users/")
 public class OperatorController {
 
 	private UserService userService;
@@ -45,7 +45,7 @@ public class OperatorController {
 	 *            given in URL id of User to be shown.
 	 * @return User instance of given id or nothing if there is no user of such id.
 	 */
-	@RequestMapping("/{id}")
+	@RequestMapping("{id}")
 	ResponseEntity<User> getUserById(@PathVariable("id") long id) {
 		return ResponseEntity.ok(userService.getOneById(id));
 	}
@@ -60,7 +60,7 @@ public class OperatorController {
 	 * @return User whose vip status has been changed or a String indicating that
 	 *         operation failed.
 	 */
-	@PutMapping("/{id}/vip")
+	@PutMapping("{id}/vip")
 	ResponseEntity<Object> setUserAsVip(@PathVariable("id") long id) {
 		return ResponseEntity.ok(userService.setUserAsVip(id));
 
@@ -71,7 +71,7 @@ public class OperatorController {
 	 * 
 	 * @return List of User instances that are vips.
 	 */
-	@GetMapping("/vip")
+	@GetMapping("vip")
 	ResponseEntity<List<User>> showAllVips() {
 		return ResponseEntity.ok(userService.findAllWhereVip(true));
 	}
@@ -84,7 +84,7 @@ public class OperatorController {
 	 * @return True or false whether or not the vehicle has started the
 	 *         ParkingMeter.
 	 */
-	@PostMapping("/vehicle")
+	@PostMapping("vehicle")
 	ResponseEntity<?> test(@RequestBody String number) {
 		List<Vehicle> vehicles = vehicleService.getVehiclesByNumber(number);
 		return ResponseEntity.ok(vehicleService.isStarted(vehicles));
