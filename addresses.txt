@@ -1,0 +1,47 @@
+*UserController*
+prefix- "localhost:5555/users/"
+
+"create" - POST - String as a Requested Body.
+	Creates new user with username given as a String
+
+"startParking/{username}" - POST - String as Requested Body, String as Path Variable
+	Starts parking meter for user of given username (PathVariable) and vehicle registration number (RequestBody)
+
+"checkParking/{username}" - GET - String as a Path Variable
+	Checks if user of given username as a String has started the parking meter
+
+"checkCost/{username}" - GET - String as a Path Variable
+	Checks the cost of stay at the parking for the user of given username
+
+"endParking/{username}" - POST - String as a Path Variable
+	Ends the parking meter of user of given username, shows time and cost of stay
+
+
+*OperatorController*
+prefix- "localhost:5555/users/"
+
+"" - GET
+	Gives list of all users.
+
+"{id}" - GET - long as a Path Variable
+	Shows details of user by given id
+
+"{id}/vip" - PUT - long as a Path Variable
+	Changes vip status of user to vip with given id
+
+"vip" - GET 
+	Shows list of all users where vip status is present
+
+"vehicle" - POST - String as Requested Body
+	Gives information wheter vehicle of given registration number has started the parking meter
+
+
+*ManagerController*
+prefix- "localhost:5555/manager/"
+
+"dailyIncome/{date}" - GET - String as a Path Variable
+	Gives information about income in given date
+
+"all/dailyIncome" - GET
+	Shows list of incomes in all days
+
